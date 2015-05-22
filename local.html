@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>parser</title>
+
+<link rel="stylesheet" href="css/vtree.css" type="text/css"/>
+
+<script src="js/d3.js"></script>
+<script src="js/vtree.js"></script>
+
+<style>
+svg.vtree .node-op circle {
+  fill: #FDD;
+}
+
+svg.vtree .node-number circle {
+  fill: #DFD;
+}
+</style>
+
+
+<script type="text/javascript">
+window.onload = function () {
+  var root = {
+    className: "node-op",
+    nodeChar: "+",
+    children: [
+      {
+        className: "node-number",
+        nodeChar: "N",
+        nodeText: "19"
+      },
+      {
+        className: "node-op",
+        nodeChar: "*",
+        children: [
+          {
+            className: "node-number",
+            nodeChar: "N",
+            nodeText: "72"
+          },
+          {
+            className: "node-number",
+            nodeChar: "N",
+            nodeText: "69"
+          }
+        ]
+      }
+    ]
+  };
+
+  var svg = document.getElementById("svg");
+
+  vtree(svg, 600, 400)
+    .root(root)
+    .update();
+};
+</script>
+
+</head>
+
+<body>
+
+<svg id="svg"></svg>
+
+</body>
+
+</html>

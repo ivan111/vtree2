@@ -1,0 +1,13 @@
+{
+    "env": {
+        "browser": true
+    },
+
+    "globals": {
+        "d3": true
+    },
+
+    "rules": {
+        "no-use-before-define": [true, "nofunc"]
+    }
+}
