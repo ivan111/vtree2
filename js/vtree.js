@@ -33,8 +33,8 @@
 
         $svg
             .classed("vtree", true)
-            .style("width", width)
-            .style("height", height)
+            .style("width", width + "px")
+            .style("height", height + "px")
             .call(zoomListener);
 
 
