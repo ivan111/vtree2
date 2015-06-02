@@ -50,24 +50,32 @@
             root = aRoot;
 
             // transitionの開始位置
-            root.x0 = w / 2;
-            root.y0 = h / 2;
+            if (root) {
+                root.x0 = w / 2;
+                root.y0 = h / 2;
+            }
 
             return my;
         };
 
 
         my.update = update;
+        my.updateNodeText = updateNodeText;
 
 
         return my;
     }
 
 
-    // src は更新するときに、基準となる位置
+    // src は更新するときに、基準となる位置(src.x0, src.y0)
     function update(src) {
         if (!src) {
             src = this.root();
+        }
+
+        if (!src) {
+            clear(this.g);
+            return this;
         }
 
         var nodes = this.tree.nodes(this.root()).reverse();
@@ -85,6 +93,25 @@
         });
 
         return this;
+    }
+
+
+    function clear(g) {
+        var node = g.selectAll("g.node")
+            .data([]);
+
+        node.exit().transition()
+            .duration(DURATION)
+            .style("opacity", 0)
+            .remove();
+
+        var link = g.selectAll("path.link")
+            .data([]);
+
+        link.exit().transition()
+            .duration(DURATION)
+            .style("opacity", 0)
+            .remove();
     }
 
 
@@ -106,6 +133,7 @@
             .text(function (d) { return d.nodeChar; });
 
         nodeEnter.append("text")
+            .attr("class", "node-text")
             .attr("y", function (d) { return d.children ? -18 : 18; })
             .attr("dy", ".35em")
             .text(function (d) { return d.nodeText; });
@@ -159,12 +187,18 @@
     }
 
 
+    function updateNodeText(node) {
+        d3.selectAll("g.node-" + node.id + " text.node-text")
+            .text(node.nodeText);
+    }
+
+
     function getNodeClassName(d) {
         if (!d.className) {
-            return "node";
+            return "node node-" + d.id;
         }
 
-        return "node " + d.className;
+        return ["node node-", d.id, " " + d.className].join("");
     }
 
 
